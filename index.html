@@ -46,6 +46,13 @@
     </label>
   </div>
   <div>
+    <label>Wikiquote:
+      <input type="text" id="kw_wikiquote" placeholder="e.g. draft">
+      <button onclick="goToUserPage('wikiquote')">go</button>
+      <button onclick="goToPrefix('wikiquote')">with user</button>
+    </label>
+  </div>
+  <div>
     <label>Wikisource:
       <input type="text" id="kw_wikisource" placeholder="e.g. poems">
       <button onclick="goToUserPage('wikisource')">go</button>
@@ -66,7 +73,8 @@
   <div>
     <label>ctext:
       <input type="text" id="kw_ctext" placeholder="e.g. 忠告">
-      <button onclick="searchCtext()">go</button>
+      <button onclick="searchCtext()">ctext</button>
+      <button onclick="searchMoe()">moe</button>
     </label>
   </div>
   <div>
@@ -150,7 +158,13 @@
       const url = `https://ctext.org/dictionary.pl?if=gb&char=${word}`;
       window.open(url, "_blank");
     }
-
+   
+    function searchMoe() {
+      const word = document.getElementById("kw_ctext").value.trim();
+      if (!word) return;
+      const url = `https://dict.revised.moe.edu.tw/search.jsp?word=${word}`;
+      window.open(url, "_blank");
+    }
     function searchWebster1913() {
       const word = document.getElementById("kw_webster1913").value.trim();
       if (!word) return;
