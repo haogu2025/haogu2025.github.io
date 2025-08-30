@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>wikisource launcher</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    input, button { font-size: 1.2em; padding: 0.5em; margin: 0.5em; }
+  </style>
+</head>
+<body>
+  <input id="refInput" type="text" placeholder="例: Il.24.377">
+  <button onclick="goToHomer()">go</button>
+
+  <script>
+    function goToHomer() {
+      const input = document.getElementById("refInput").value.trim().replace(/\s+/g, "");
+      const match = input.match(/^(Il|Od)\.(\d+)\.(\d+)$/i);
+      if (!match) {
+        alert("形式は Il.X.Y または Od.X.Y のようにしてください！");
+        return;
+      }
+
+      const work = match[1];
+      const bookNum = parseInt(match[2]);
+      const lineNum = parseInt(match[3]);
+
+      const greekCaps = [
+        "", "Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", 
+        "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ",
+        "Υ", "Φ", "Χ", "Ψ", "Ω"
+      ];
+      const greekSmalls = [
+        "", "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι",
+        "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ",
+        "υ", "φ", "χ", "ψ", "ω"
+      ];
+
+      let url = "";
+      let greekLetter = "";
+
+      if (work.toLowerCase() === "il") {
+        if (bookNum < 1 || bookNum > 24) {
+          alert("イーリアスの巻番号は1〜24です！");
+          return;
+        }
+        greekLetter = greekCaps[bookNum];
+        url = `https://el.wikisource.org/wiki/Ιλιάς/${greekLetter}`;
+      } else if (work.toLowerCase() === "od") {
+        if (bookNum < 1 || bookNum > 24) {
+          alert("オデュッセイアの巻番号は1〜24です！");
+          return;
+        }
+        greekLetter = greekSmalls[bookNum];
+        url = `https://el.wikisource.org/wiki/Οδύσσεια/${greekLetter}`;
+      }
+      const roundedLine = lineNum < 5 ? null : Math.floor(lineNum / 5) * 5;
+      if (roundedLine !== null) {
+        url += `#v${roundedLine}`;
+      }
+      alert(url)
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
+
